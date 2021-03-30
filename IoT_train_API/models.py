@@ -10,3 +10,4 @@ class IoT_sensor_info(models.Model):
     UV = models.FloatField(max_length=50, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
+

@@ -8,7 +8,7 @@ from django.contrib.auth import login
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 # models
 from .models import IoT_sensor_info
@@ -49,7 +49,7 @@ def IoT_sensor_POST_View(request):
             return Response(httpResponse)
 
 
-class IoT_sensor_GET_View(ListAPIView):
+class IoT_sensor_GET_View(RetrieveAPIView):
     """
     using curl code
     curl --location --request GET 'http://127.0.0.1:8000/api/GET_IoT_sensor_info' \
@@ -59,12 +59,17 @@ class IoT_sensor_GET_View(ListAPIView):
     serializer_class = IoT_sensor_GET_Serializer
     filter_backends = (SearchFilter, OrderingFilter)
     search_fields = ['user', 'temp', 'humi', 'light', 'UV']
+    queryset = IoT_sensor_info.objects.all()
+    # def get_queryset(self):
+    #     u = User.objects.get(id=self.request.user.id)
+    #     queryset = IoT_sensor_info.objects.all()
+    #     queryset = queryset.filter(user=u)
+    #     return queryset
 
-    def get_queryset(self):
+    def get_object(self, *args, **kwargs):
         u = User.objects.get(id=self.request.user.id)
-        queryset = IoT_sensor_info.objects.all()
-        queryset = queryset.filter(user=u)
-        return queryset
+
+        return self.queryset.filter(user=u).latest("id")
 
 
 def main_page_submit(request):
