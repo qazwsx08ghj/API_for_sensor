@@ -79,7 +79,6 @@ curl --location --request POST 'http://127.0.0.1:8000/api/POST_IoT_sensor_info' 
 * GET method cUrl
 
 ``` shellscript
-using curl code
     curl --location --request GET 'http://127.0.0.1:8000/api/GET_IoT_sensor_info' \
     --header 'Authorization: Basic {{b_64code}}'
 ```
