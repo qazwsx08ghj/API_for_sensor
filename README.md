@@ -52,14 +52,14 @@ C:\Users\NPUST\Desktop\API_for_sensor>
 
 C:\Users\NPUST\Desktop\API_for_sensor>pip install -r requirements.txt -v
 
-C:\Users\NPUST\Desktop\API_for_sensor>py manage.py runserver
+C:\Users\NPUST\Desktop\API_for_sensor>py manage.py runserver 0.0.0.0:8000
 Watching for file changes with StatReloader
 Performing system checks...
 
 System check identified no issues (0 silenced).
 March 30, 2021 - 17:38:07
 Django version 3.1.7, using settings 'IoT_API.settings'
-Starting development server at http://127.0.0.1:8000/
+Starting development server at http://0.0.0.0:8000/
 Quit the server with CTRL-BREAK.
 
 ```
@@ -68,7 +68,7 @@ Quit the server with CTRL-BREAK.
 
 
 ```shellscript
-curl --location --request POST 'http://127.0.0.1:8000/api/POST_IoT_sensor_info' \
+curl --location --request POST 'http://{your_computer_IP}:8000/api/POST_IoT_sensor_info' \
     --header 'Authorization: Basic {{b_64code}}' \
     --form 'temp="{{ sensor data }}"' \
     --form 'humi="{{ sensor data }}"'
@@ -79,7 +79,7 @@ curl --location --request POST 'http://127.0.0.1:8000/api/POST_IoT_sensor_info' 
 * GET method cUrl
 
 ``` shellscript
-    curl --location --request GET 'http://127.0.0.1:8000/api/GET_IoT_sensor_info' \
+    curl --location --request GET 'http://{your_computer_IP}:8000/api/GET_IoT_sensor_info' \
     --header 'Authorization: Basic {{b_64code}}'
 ```
 
