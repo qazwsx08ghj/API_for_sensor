@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+    chart
+{% endblock %}
+{% load static %}
+{% block header %}
+    <script type="text/javascript" src="{% static "chart/js/get_data.js" %}"></script>
+{% endblock %}
+<body>
+    {% block content %}
+    <div>
+        <canvas id="chart">
+
+        </canvas>
+    </div>
+
+
+    {% endblock %}
+
+    {% block js_script %}
+        // 可客製化區域
+        let backgroundColors= [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+        ];
+        let borderColors= [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+        ];
+
+        const url = "http://192.168.0.104/api/GET_IoT_sensor_info"; // 需要更改
+        let response = data(url);
+        let datas = null;
+        response.then(json => {datas = json;});
+        var ctx = document.getElementById('chart').getContext('2d');
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels: ["溫度","濕度","光亮度","紫外線","土壤濕度" ],
+                  datasets:[{
+                      label: '圖表',
+                      borderWidth: 1,
+                      data: [result["temp"], result["humi"],result["light"],result["UV"],result["moisture"]],
+                        backgroundColor: backgroundColors,// 背景色
+                        borderColor: borderColors, // 框色
+                 }]
+              },
+              options: {
+                  scales: {
+                      xAxes: [{
+                                  display: true,
+                                  scaleLabel: {
+                                      display: true,
+                                      labelString: '感測類型'
+                                  }
+                              }],
+                              yAxes: [{
+                                  display: true,
+                                  scaleLabel: {
+                                      display: true,
+                                      labelString: '數值'
+                                  }
+                              }]
+                  },
+              },
+          });
+
+    {% endblock %}
+
+</body>
+</html>

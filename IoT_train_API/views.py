@@ -1,8 +1,8 @@
 # django modules
 from django.shortcuts import redirect,render
 from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, authenticate
 
 # rest_framework_API_module
 from rest_framework.decorators import api_view
@@ -85,14 +85,22 @@ def main_page_submit(request):
         context = {'form': Form}
 
         return render(request, 'submit.html', context)
-    return redirect('/get_b64')
+    return redirect('/get_b64', request)
 
 
 def main_page_get_b64(request):
+
     if request.method == "POST":
         datas = {
-            'b64_code': base64.b64encode(str.encode("{}:{}".format(request.POST["username"], request.POST["username"])))
+            'b64_code': base64.b64encode(str.encode("{}:{}".format(request.POST["username"], request.POST["password"])))
         }
+        user = authenticate(username=request.POST["username"], password=request.POST["password"])
+        login(request, user)
+        print(request.user.is_anonymous)
         return render(request, "get_b64_page.html", datas)
-
     return render(request, "get_b64_page.html")
+
+
+def chart(request):
+    print(request.user.is_anonymous)
+    return render(request, "chart.html")

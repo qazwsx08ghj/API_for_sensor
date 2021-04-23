@@ -1,3 +1,10 @@
+
+{% extends "base.html" %}
+{% block title %}
+    Get B64 Code
+{% endblock %}
+
+{% block content %}
 <form action="" method="post">
     {% csrf_token %}
     <label for="username">username:</label>
@@ -7,3 +14,5 @@
     <input type="submit" value="get b64_code">
     <label>b64_code:{{ b64_code }}</label>
 </form>
+{% endblock %}
+

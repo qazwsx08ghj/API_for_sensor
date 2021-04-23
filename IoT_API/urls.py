@@ -15,18 +15,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
 
+from django.conf.urls.static import static
 from IoT_train_API.views import (
     IoT_sensor_GET_View,
     IoT_sensor_POST_View,
     main_page_submit,
-    main_page_get_b64
+    main_page_get_b64,
+    chart
 )
 
 urlpatterns = [
     path('get_b64/', main_page_get_b64, name="get_b64"),
     path('', main_page_submit, name="main"),
     path('admin/', admin.site.urls),
+    path('chart/', chart, name="chart"),
     path('api/GET_IoT_sensor_info', IoT_sensor_GET_View.as_view(), name='GET_IoT_sensor_info'),
     path('api/POST_IoT_sensor_info', IoT_sensor_POST_View, name='POST_IoT_sensor_info'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -8,6 +8,7 @@ class IoT_sensor_info(models.Model):
     humi = models.FloatField(max_length=50, null=True, blank=True)
     light = models.FloatField(max_length=50, null=True, blank=True)
     UV = models.FloatField(max_length=50, null=True, blank=True)
+    moisture = models.FloatField(max_length=50, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
 
