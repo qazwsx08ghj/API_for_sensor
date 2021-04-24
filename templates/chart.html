@@ -5,12 +5,12 @@
 {% endblock %}
 {% load static %}
 {% block header %}
-    <script type="text/javascript" src="{% static "chart/js/get_data.js" %}"></script>
+<script type="text/javascript" src="{% static "chart/js/get_data.js" %}"></script>
 {% endblock %}
 <body>
     {% block content %}
     <div>
-        <canvas id="chart">
+        <canvas id="myChart">
 
         </canvas>
     </div>
@@ -19,58 +19,77 @@
     {% endblock %}
 
     {% block js_script %}
-        // 可客製化區域
-        let backgroundColors= [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-        ];
-        let borderColors= [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-        ];
+        const url = "http://192.168.0.104/api/GET_IoT_sensor_info"; // your API url
 
-        const url = "http://192.168.0.104/api/GET_IoT_sensor_info"; // 需要更改
-        let response = data(url);
-        let datas = null;
-        response.then(json => {datas = json;});
-        var ctx = document.getElementById('chart').getContext('2d');
-          var myChart = new Chart(ctx, {
-              type: 'bar',
-              data: {
-                  labels: ["溫度","濕度","光亮度","紫外線","土壤濕度" ],
-                  datasets:[{
-                      label: '圖表',
-                      borderWidth: 1,
-                      data: [result["temp"], result["humi"],result["light"],result["UV"],result["moisture"]],
-                        backgroundColor: backgroundColors,// 背景色
-                        borderColor: borderColors, // 框色
-                 }]
-              },
-              options: {
-                  scales: {
-                      xAxes: [{
-                                  display: true,
-                                  scaleLabel: {
-                                      display: true,
-                                      labelString: '感測類型'
-                                  }
-                              }],
-                              yAxes: [{
-                                  display: true,
-                                  scaleLabel: {
-                                      display: true,
-                                      labelString: '數值'
-                                  }
-                              }]
-                  },
-              },
-          });
+        // customized
+        let customized = {};
+        customized["backgroundColors"] = [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+        ];
+        customized["borderColors"] = [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+        ];
+        customized["labels"] = ["溫度","濕度","光亮度","紫外線","土壤濕度"];
+        // if you wan't go more customized stuff, just use customized["some element"]= something you wan't to add in chart.
+
+
+        let target_element = document.getElementById('myChart').getContext('2d'); // get chart element by id.
+
+        // Create chart.
+        let create_chart = (json, customized, target_element) => {
+            let response_data = json;
+            let myChart = new Chart(target_element, {
+                type: 'bar',
+                data: {
+                    labels: customized["labels"],
+                    // fancy way to do this, you can just using "response_data.keys()".
+                    datasets:[{
+                        label: '圖表',
+                        borderWidth: 1,
+                        data: [
+                            response_data["temp"],
+                            response_data["humi"],
+                            response_data["light"],
+                            response_data["UV"],
+                            response_data["moisture"]],
+                            backgroundColor: customized["backgroundColors"],
+                            borderColor: customized["borderColors"],
+                     }]
+                },
+
+                options: {
+                    scales: {
+                        xAxes: [{
+                        display: true,scaleLabel: {display: true,labelString: '感測類型'}
+                        }],
+
+                        yAxes: [{
+                        display: true,scaleLabel: {display: true,labelString: '數值'}
+                        }]
+                    },
+                },
+            });
+        }
+
+    // get data from GET API method.
+    get_data(url).then(json => {
+        create_chart(json, customized, target_element); //get new chart while get new sensor data.
+    });
+
+    // set timer.
+    let update = () =>{
+        window.location.reload();
+    }
+    setTimeout('update()',3000);
+
 
     {% endblock %}
 

@@ -7,12 +7,25 @@
 {% block content %}
 <form action="" method="post">
     {% csrf_token %}
+    <div>
+        Step1: Insert your username and password below.
+    </div>
     <label for="username">username:</label>
     <input type="text" name="username" value="" id="username"> <br/>
     <label for="password">password:</label>
     <input type="password" name="password" value="" id="password"> <br/>
-    <input type="submit" value="get b64_code">
-    <label>b64_code:{{ b64_code }}</label>
+    <input type="submit" value="Get code">
+
+    <div>
+        <label>code:{{ b64_code }}</label>
+    </div>
+    <div>
+        <br>
+    </div>
+    <div>
+        <label>After you start insert sensor data,you can check the value from here:</label>
+        <a href="/chart">chart</a>
+    </div>
 </form>
 {% endblock %}
 

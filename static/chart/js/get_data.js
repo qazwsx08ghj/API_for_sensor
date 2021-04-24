@@ -1,9 +1,7 @@
 
-
-let datas = (url) =>{
-    fetch(url, {
-        method:"GET"
-    }).then(response => response.json()
+//GET data by url
+let get_data = (url) =>{
+    return fetch(url).then(response =>
+        response.json()
     )
 }
-
