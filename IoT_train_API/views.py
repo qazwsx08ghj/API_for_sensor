@@ -2,6 +2,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+
 # rest_framework_API_module
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
