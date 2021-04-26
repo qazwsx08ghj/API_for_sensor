@@ -56,7 +56,7 @@ void loop() {
         // Make a HTTP request:
         client.println("POST /api/POST_IoT_sensor_info HTTP/1.1");
 
-        client.println("Host: 192.168.43.225:8000");        // 更改ip
+        client.println("Host: ");        // 更改ip EX: client.println("Host: 127.0.0.1:80");
         client.println("Authorization: Basic cm9vdDpyb290"); // 更改Authorization
         client.println("Connection: close");
 
@@ -99,7 +99,7 @@ void loop() {
 
 // create JSON file
 String buildJson() {
-  delay(10000); //暫設10秒
+  delay(3000); //暫設10秒
   float temp =dht11_p2.readTemperature(); // 溫度
   float humi =dht11_p2.readHumidity(); // 濕度
   int moisturePin = A0; // 土壤感測器插槽位置
