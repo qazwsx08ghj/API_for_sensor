@@ -2,6 +2,8 @@
 
 ## how to set up 
 
+# !!!Remember to Change your ip location in template/chart.html!!!
+
 
 * Clone this project to your dictionary 
 
