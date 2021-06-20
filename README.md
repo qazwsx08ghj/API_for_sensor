@@ -2,7 +2,7 @@
 
 ## how to set up 
 
-# !!!Remember to Change your ip location in template/chart.html!!!
+# !!!Remember to Change your API url in template/chart.html!!!
 
 
 * Clone this project to your dictionary 
